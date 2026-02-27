@@ -127,9 +127,15 @@ export function AuthProvider({ children }) {
       return null
     }
 
+    const firstName = jwtPayload?.first_name ?? null
+    const lastName = jwtPayload?.last_name ?? null
+
     return {
       userId: jwtPayload?.sub ?? null,
       email: session.email ?? jwtPayload?.email ?? null,
+      firstName,
+      lastName,
+      fullName: [firstName, lastName].filter(Boolean).join(' ') || null,
       role: jwtPayload?.role ?? jwtPayload?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ?? null,
       accessTokenExpiresAt: session.accessTokenExpiresAt,
       refreshTokenExpiresAt: session.refreshTokenExpiresAt,
